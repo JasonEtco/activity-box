@@ -12,17 +12,21 @@ const truncate = str => (str.length <= 46 ? str : str.slice(0, 43) + '...')
 
 const serializers = {
   IssueCommentEvent: item => {
-    return `Commented on #${item.payload.issue.number} in ${item.repo.name}`
+    return `🗣 Commented on #${item.payload.issue.number} in ${item.repo.name}`
   },
   IssueEvent: item => {
-    return `${capitalize(item.payload.action)} issue #${
+    return `❗️ ${capitalize(item.payload.action)} issue #${
       item.payload.issue.number
     } in ${item.repo.name}`
   },
   PullRequestEvent: item => {
-    return `${capitalize(item.payload.action)} PR #${
-      item.payload.pull_request.number
-    } in ${item.repo.name}`
+    const emoji = item.payload.action === 'opened' ? '💪' : '❌'
+    const line = item.payload.pull_request.merged
+      ? '🎉 Merged'
+      : `${emoji} ${capitalize(item.payload.action)}`
+    return `${line} PR #${item.payload.pull_request.number} in ${
+      item.repo.name
+    }`
   }
 }
 
