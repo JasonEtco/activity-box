@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400" src="https://user-images.githubusercontent.com/4658208/54479268-752bb580-47f1-11e9-9d01-edd8b574aa92.png">
+  <img width="400" src="https://user-images.githubusercontent.com/10660468/54498786-af748000-48e1-11e9-9d39-69844f82cde5.png">
   <h3 align="center">activity-box</h3>
   <p align="center">Update a pinned gist to contain the latest actvity of a user</p>
 </p>
@@ -11,7 +11,7 @@
 ### Prep work
 
 1. Create a new public GitHub Gist (https://gist.github.com/)
-1. Create a token with the `gist` scope and copy it. (https://github.com/settings/tokens/new)
+2. Create a token with the `gist` scope and copy it. (https://github.com/settings/tokens/new)
 
 ### Project setup
 
