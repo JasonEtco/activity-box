@@ -25,3 +25,7 @@
 - **GIST_ID:** The ID portion from your gist url `https://gist.github.com/matchai/`**`6d5f84419863089a167387da62dd7081`**.
 - **GITHUB_TOKEN:** The GitHub token generated above.
 - **GITHUB_USERNAME:** The username handle of the GitHub account.
+
+---
+
+_Inspire by [matchai/bird-box](https://github.com/matchai/bird-box)_
