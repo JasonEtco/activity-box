@@ -14,7 +14,7 @@ const serializers = {
   IssueCommentEvent: item => {
     return `🗣 Commented on #${item.payload.issue.number} in ${item.repo.name}`
   },
-  IssueEvent: item => {
+  IssuesEvent: item => {
     return `❗️ ${capitalize(item.payload.action)} issue #${
       item.payload.issue.number
     } in ${item.repo.name}`
