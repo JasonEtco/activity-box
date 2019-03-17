@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400" src="https://user-images.githubusercontent.com/10660468/54498786-af748000-48e1-11e9-9d39-69844f82cde5.png">
+  <img width="400" src="https://user-images.githubusercontent.com/10660468/54498934-19415980-48e3-11e9-8f17-1e91a475befe.png">
   <h3 align="center">activity-box</h3>
   <p align="center">⚡️📌 Update a pinned gist to contain the latest activity of a user</p>
 </p>
