@@ -4,6 +4,9 @@
   "description": "📌 Update a gist to contain your recent activity",
   "author": "Jason Etcovitch <jasonetco@gmail.com>",
   "license": "ISC",
+  "scripts": {
+    "format": "prettier --write ./index.js"
+  },
   "dependencies": {
     "@octokit/rest": "^16.18.1",
     "dotenv": "^7.0.0"
