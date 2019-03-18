@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`activity-box createBody returns the expected string 1`] = `
+"❗️ Opened issue #1 in clippy/take-over-github
+🗣 Commented on #1 in clippy/take-over-github
+🎉 Merged PR #2 in clippy/take-over-github
+❌ Closed PR #3 in clippy/take-over-github"
+`;

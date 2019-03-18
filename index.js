@@ -30,7 +30,7 @@ const serializers = {
   }
 }
 
-async function main() {
+async function createBody() {
   // Get the user's public events
   const events = await octokit.activity.listPublicEventsForUser({
     username: GITHUB_USERNAME,
@@ -49,18 +49,19 @@ async function main() {
 
   // Create one string with multiple lines
   const content = serialized.join('\n')
-
-  // Update the Gist
-  return updateGist(content)
+  return content
 }
 
 async function updateGist(content) {
   let gist
   try {
     gist = await octokit.gists.get({ gist_id: GIST_ID })
+    console.log(`Found Gist: ${gist.data.description}`)
   } catch (error) {
     console.error(`Unable to get gist\n${error}`)
+    return
   }
+
   // Get original filename to update that same file
   const filename = Object.keys(gist.data.files)[0]
 
@@ -71,11 +72,23 @@ async function updateGist(content) {
         [filename]: { content }
       }
     })
+    console.log('Gist updated!')
   } catch (error) {
     console.error(`Unable to update gist\n${error}`)
   }
 }
 
-;(async () => {
-  await main()
-})()
+// A hacky way to expose the modules in tests
+// but run the thing in "production"
+if (process.env.NODE_ENV === 'test') {
+  module.exports = {
+    updateGist,
+    createBody
+  }
+} else {
+  ;(async () => {
+    const content = await createBody()
+    return updateGist(content)
+  })()
+}
+
