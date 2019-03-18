@@ -80,6 +80,7 @@ async function updateGist(content) {
 
 // A hacky way to expose the modules in tests
 // but run the thing in "production"
+// istanbul ignore else
 if (process.env.NODE_ENV === 'test') {
   module.exports = {
     updateGist,

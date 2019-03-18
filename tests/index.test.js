@@ -50,5 +50,30 @@ describe('activity-box', () => {
       await updateGist('hello')
       expect(console.log).toHaveBeenCalledWith('Gist updated!')
     })
+
+    it('handles a missing Gist', async () => {
+      nock.cleanAll()
+      const nocked = nock('https://api.github.com')
+        .get('/gists/456def').reply(404)
+        .patch('/gists/456def').reply(200)
+
+      await updateGist('hello')
+      expect(console.error).toHaveBeenCalled()
+      expect(nocked.pendingMocks()).toEqual([
+        'PATCH https://api.github.com:443/gists/456def'
+      ])
+    })
+
+    it('handles failure to update the Gist', async () => {
+      nock.cleanAll()
+      nock('https://api.github.com')
+        .get('/gists/456def')
+        .reply(200, { description: 'a gist', files: ['a file'] })
+        .patch('/gists/456def')
+        .reply(404)
+
+      await updateGist('hello')
+      expect(console.error).toHaveBeenCalled()
+    })
   })
 })
