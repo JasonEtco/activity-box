@@ -1,11 +1,11 @@
 {
   "name": "activity-box",
   "version": "0.0.1",
-  "description": "📌 Update a gist to contain your recent activity",
+  "description": "⚡️📌️ Update a gist to contain your recent activity",
   "author": "Jason Etcovitch <jasonetco@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "format": "prettier --write ./index.js"
   },
   "repository": {
