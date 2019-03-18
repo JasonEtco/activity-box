@@ -24,6 +24,10 @@ describe('activity-box', () => {
     nock('https://api.github.com')
       .get('/users/clippy/events/public?per_page=100')
       .reply(200, events)
+      .get('/gists/456def')
+      .reply(200, { description: 'a gist', files: ['a file'] })
+      .patch('/gists/456def')
+      .reply(200)
   })
 
   describe('createBody', () => {
@@ -33,9 +37,15 @@ describe('activity-box', () => {
     })
   })
 
-  afterEach(() => {
-    delete process.env.GITHUB_TOKEN
-    delete process.env.GITHUB_USERNAME
-    delete process.env.GIST_ID
+  describe('updateGist', () => {
+    beforeEach(() => {
+      console.log = jest.fn()
+      console.error = jest.fn()
+    })
+
+    it('updates the Gist with the provided string', async () => {
+      await updateGist('hello')
+      expect(console.log).toHaveBeenCalledWith('Gist updated!')
+    })
   })
 })
