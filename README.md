@@ -4,6 +4,8 @@
   <p align="center">⚡️📌 Update a pinned gist to contain the latest activity of a user</p>
 </p>
 
+<p align="center"><a href="https://action-badges.now.sh"><img src="https://action-badges.now.sh/JasonEtco/activity-box" /></a> <a href="https://codecov.io/gh/JasonEtco/activity-box/"><img src="https://badgen.now.sh/codecov/c/github/JasonEtco/activity-box" alt="Codecov"></a></p>
+
 ---
 
 ## Setup
