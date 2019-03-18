@@ -22,10 +22,13 @@ const events = [{
 describe('activity-box', () => {
   beforeEach(() => {
     nock('https://api.github.com')
+      // Get the user's recent activity
       .get('/users/clippy/events/public?per_page=100')
       .reply(200, events)
+      // Get the Gist
       .get('/gists/456def')
       .reply(200, { description: 'a gist', files: ['a file'] })
+      // Update the Gist
       .patch('/gists/456def')
       .reply(200)
   })
