@@ -17,6 +17,10 @@ const events = [{
   type: 'PullRequestEvent',
   repo: { name: 'clippy/take-over-github' },
   payload: { action: 'closed', pull_request: { number: 3, merged: false } }
+}, {
+  type: 'PullRequestEvent',
+  repo: { name: 'clippy/really-really-really-long' },
+  payload: { action: 'opened', pull_request: { number: 3 } }
 }]
 
 describe('activity-box', () => {
