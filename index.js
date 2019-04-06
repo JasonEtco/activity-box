@@ -32,10 +32,14 @@ Toolkit.run(
     const { GIST_ID, GH_USERNAME, GH_PAT } = process.env
 
     // Get the user's public events
+    tools.log.debug(`Getting activity for ${GH_USERNAME}`)
     const events = await tools.github.activity.listPublicEventsForUser({
       username: GH_USERNAME,
       per_page: 100
     })
+    tools.log.debug(
+      `Activity for ${GH_USERNAME}, ${events.data.length} events found.`
+    )
 
     const content = events.data
       // Filter out any boring activity
@@ -51,9 +55,11 @@ Toolkit.run(
 
     const box = new GistBox({ id: GIST_ID, token: GH_PAT })
     try {
+      tools.log.debug(`Updating Gist ${GIST_ID}`)
       await box.update({ content })
       tools.exit.success('Gist updated!')
     } catch (err) {
+      tools.log.debug('Error getting or update the Gist:')
       return tools.exit.failure(err)
     }
   },
