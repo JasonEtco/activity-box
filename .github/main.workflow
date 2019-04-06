@@ -25,17 +25,17 @@ action "codecov" {
 }
 
 workflow "Update activity" {
-  on = "schedule(*/15 * * * *)"
   resolves = ["update-gist"]
+  on = "schedule(*/5 * * * *)"
 }
 
 action "update-gist" {
   uses = "./"
   secrets = [
-    "GH_PAT"
+    "GH_PAT",
   ]
   env = {
-    GH_USERNAME = "JasonEtco",
+    GH_USERNAME = "JasonEtco"
     GIST_ID = "68c3458672047ec25e61a8af730181c3"
   }
 }
