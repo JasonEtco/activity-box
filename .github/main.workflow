@@ -33,6 +33,7 @@ action "update-gist" {
   uses = "JasonEtco/activity-box@master"
   secrets = [
     "GH_PAT",
+    "GITHUB_TOKEN"
   ]
   env = {
     GH_USERNAME = "JasonEtco"
