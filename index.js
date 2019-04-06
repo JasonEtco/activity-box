@@ -1,11 +1,5 @@
 require('dotenv').config()
-const Octokit = require('@octokit/rest')
-
-const { GIST_ID, GITHUB_USERNAME, GITHUB_TOKEN } = process.env
-
-const octokit = new Octokit({
-  auth: `token ${GITHUB_TOKEN}`
-})
+const { Toolkit } = require('actions-toolkit')
 
 const capitalize = str => str.slice(0, 1).toUpperCase() + str.slice(1)
 const truncate = str => (str.length <= 46 ? str : str.slice(0, 43) + '...')
@@ -30,66 +24,60 @@ const serializers = {
   }
 }
 
-async function createBody() {
-  // Get the user's public events
-  const events = await octokit.activity.listPublicEventsForUser({
-    username: GITHUB_USERNAME,
-    per_page: 100
-  })
+Toolkit.run(
+  async tools => {
+    const { GIST_ID, GITHUB_USERNAME, GITHUB_PAT } = process.env
 
-  const serialized = events.data
-    // Filter out any boring activity
-    .filter(event => serializers.hasOwnProperty(event.type))
-    // We only have five lines to work with
-    .slice(0, 5)
-    // Call the serializer to construct a string
-    .map(item => serializers[item.type](item))
-    // Truncate if necessary
-    .map(truncate)
-
-  // Create one string with multiple lines
-  const content = serialized.join('\n')
-  return content
-}
-
-async function updateGist(content) {
-  let gist
-  try {
-    gist = await octokit.gists.get({ gist_id: GIST_ID })
-    console.log(`Found Gist: ${gist.data.description}`)
-  } catch (error) {
-    console.error(`Unable to get gist\n${error}`)
-    return
-  }
-
-  // Get original filename to update that same file
-  const filename = Object.keys(gist.data.files)[0]
-
-  try {
-    await octokit.gists.update({
-      gist_id: GIST_ID,
-      files: {
-        [filename]: { content }
-      }
+    // Need to re-authenticate to use the Gist API
+    tools.github.authenticate({
+      type: 'token',
+      token: `token ${GITHUB_PAT}`
     })
-    console.log('Gist updated!')
-  } catch (error) {
-    console.error(`Unable to update gist\n${error}`)
-  }
-}
 
-// A hacky way to expose the modules in tests
-// but run the thing in "production"
-// istanbul ignore else
-if (process.env.NODE_ENV === 'test') {
-  module.exports = {
-    updateGist,
-    createBody
-  }
-} else {
-  ;(async () => {
-    const content = await createBody()
-    return updateGist(content)
-  })()
-}
+    // Get the user's public events
+    const events = await tools.github.activity.listPublicEventsForUser({
+      username: GITHUB_USERNAME,
+      per_page: 100
+    })
 
+    const content = events.data
+      // Filter out any boring activity
+      .filter(event => serializers.hasOwnProperty(event.type))
+      // We only have five lines to work with
+      .slice(0, 5)
+      // Call the serializer to construct a string
+      .map(item => serializers[item.type](item))
+      // Truncate if necessary
+      .map(truncate)
+      // Join items to one string
+      .join('\n')
+
+    let gist
+    try {
+      gist = await tools.github.gists.get({ gist_id: GIST_ID })
+      tools.log(`Found Gist: ${gist.data.description}`)
+    } catch (error) {
+      return tools.exit.failure(`Unable to get gist\n${error}`)
+    }
+
+    // Get original filename to update that same file
+    const filename = Object.keys(gist.data.files)[0]
+
+    try {
+      await tools.github.gists.update({
+        gist_id: GIST_ID,
+        files: {
+          [filename]: { content }
+        }
+      })
+
+      tools.log.success('Gist updated!')
+    } catch (error) {
+      tools.exit.failure(`Unable to update gist\n${error}`)
+    }
+  },
+  {
+    event: 'schedule',
+    secrets: ['GITHUB_PAT', 'GITHUB_USERNAME', 'GIST_ID']
+  }
+)
