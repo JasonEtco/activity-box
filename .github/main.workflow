@@ -30,7 +30,7 @@ workflow "Update activity" {
 }
 
 action "update-gist" {
-  uses = "./"
+  uses = "JasonEtco/activity-box@master"
   secrets = [
     "GH_PAT",
   ]
