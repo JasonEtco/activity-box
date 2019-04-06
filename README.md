@@ -18,6 +18,17 @@
 ### Project setup
 
 1. Fork this repo
+
+#### Using GitHub Actions
+
+2. Add the following environment variables to the repository:
+
+- **GIST_ID:** The ID portion from your gist url `https://gist.github.com/matchai/`**`6d5f84419863089a167387da62dd7081`**.
+- **GITHUB_TOKEN:** The GitHub token generated above.
+- **GITHUB_USERNAME:** The username handle of the GitHub account.
+
+#### Using CircleCI
+
 2. Log into CircleCI with your GitHub (https://circleci.com/vcs-authorize/)
 3. Click on "Add Projects" on the sidebar
 4. Set up a project with the newly created fork
