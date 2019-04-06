@@ -57,11 +57,7 @@ Toolkit.run(
 
     const box = new GistBox({ id: GIST_ID, token: GITHUB_PAT })
     try {
-      await box.update({
-        filename: 'example.md',
-        description: 'A new description',
-        content: 'The new content'
-      })
+      await box.update({ content })
       tools.exit.success('Gist updated!')
     } catch (err) {
       return tools.exit.failure(err)
