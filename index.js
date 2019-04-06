@@ -29,11 +29,11 @@ const serializers = {
 
 Toolkit.run(
   async tools => {
-    const { GIST_ID, GITHUB_USERNAME, GITHUB_PAT } = process.env
+    const { GIST_ID, GH_USERNAME, GH_PAT } = process.env
 
     // Get the user's public events
     const events = await tools.github.activity.listPublicEventsForUser({
-      username: GITHUB_USERNAME,
+      username: GH_USERNAME,
       per_page: 100
     })
 
@@ -49,7 +49,7 @@ Toolkit.run(
       // Join items to one string
       .join('\n')
 
-    const box = new GistBox({ id: GIST_ID, token: GITHUB_PAT })
+    const box = new GistBox({ id: GIST_ID, token: GH_PAT })
     try {
       await box.update({ content })
       tools.exit.success('Gist updated!')
@@ -59,6 +59,6 @@ Toolkit.run(
   },
   {
     event: 'schedule',
-    secrets: ['GITHUB_PAT', 'GITHUB_USERNAME', 'GIST_ID']
+    secrets: ['GH_PAT', 'GITHUB_USERNAME', 'GIST_ID']
   }
 )
