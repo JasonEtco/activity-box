@@ -56,7 +56,8 @@ describe('activity-box', () => {
         info: jest.fn(),
         success: jest.fn(),
         warn: jest.fn(),
-        fatal: jest.fn()
+        fatal: jest.fn(),
+        debug: jest.fn()
       }
     })
 
