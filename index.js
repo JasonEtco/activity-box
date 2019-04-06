@@ -31,12 +31,6 @@ Toolkit.run(
   async tools => {
     const { GIST_ID, GITHUB_USERNAME, GITHUB_PAT } = process.env
 
-    // Need to re-authenticate to use the Gist API
-    tools.github.authenticate({
-      type: 'token',
-      token: `token ${GITHUB_PAT}`
-    })
-
     // Get the user's public events
     const events = await tools.github.activity.listPublicEventsForUser({
       username: GITHUB_USERNAME,
