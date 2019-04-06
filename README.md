@@ -10,6 +10,8 @@
 
 ## Setup
 
+**activity-box** is a GitHub Action that is designed to work using the [`schedule`](https://developer.github.com/actions/managing-workflows/creating-and-cancelling-a-workflow/#scheduling-a-workflow) event.
+
 ### Prep work
 
 1. Create a new public GitHub Gist (https://gist.github.com/)
@@ -17,17 +19,32 @@
 
 ### Project setup
 
-1. Fork this repo
-2. Log into CircleCI with your GitHub (https://circleci.com/vcs-authorize/)
-3. Click on "Add Projects" on the sidebar
-4. Set up a project with the newly created fork
-5. Go to Project Settings > Environment Variables
-6. Add the following environment variables:
+1. Create a `.github/main.workflow` file with a workflow like this:
+
+```workflow
+workflow "Update activity" {
+  on = "schedule(*/15 * * * *)"
+  resolves = ["update-gist"]
+}
+
+action "update-gist" {
+  uses = "JasonEtco/activity-box@master"
+  secrets = [
+    "GITHUB_PAT",
+    "GITHUB_USERNAME",
+    "GIST_ID"
+  ]
+}
+```
+
+2. 💰 Profit
+
+### Secrets
 
 - **GIST_ID:** The ID portion from your gist url `https://gist.github.com/matchai/`**`6d5f84419863089a167387da62dd7081`**.
-- **GITHUB_TOKEN:** The GitHub token generated above.
+- **GITHUB_PAT:** The GitHub token generated above.
 - **GITHUB_USERNAME:** The username handle of the GitHub account.
 
 ---
 
-_Inspire by [matchai/bird-box](https://github.com/matchai/bird-box)_
+_Inspired by [matchai/bird-box](https://github.com/matchai/bird-box)_

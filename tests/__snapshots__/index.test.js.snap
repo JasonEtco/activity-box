@@ -1,9 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`activity-box createBody returns the expected string 1`] = `
-"❗️ Opened issue #1 in clippy/take-over-github
+exports[`activity-box handles failure to update the Gist 1`] = `
+Array [
+  Array [
+    [HttpError: request to https://api.github.com/gists/456def failed, reason: 404],
+  ],
+]
+`;
+
+exports[`activity-box updates the Gist with the expected string 1`] = `
+Object {
+  "files": Object {
+    "a file": Object {
+      "content": "❗️ Opened issue #1 in clippy/take-over-github
 🗣 Commented on #1 in clippy/take-over-github
 🎉 Merged PR #2 in clippy/take-over-github
 ❌ Closed PR #3 in clippy/take-over-github
-💪 Opened PR #3 in clippy/really-really-rea..."
+💪 Opened PR #3 in clippy/really-really-rea...",
+    },
+  },
+}
 `;
