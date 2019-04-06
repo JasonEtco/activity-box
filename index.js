@@ -1,8 +1,11 @@
 require('dotenv').config()
+
 const { Toolkit } = require('actions-toolkit')
+const { GistBox, MAX_LINES, MAX_LENGTH } = require('gist-box')
 
 const capitalize = str => str.slice(0, 1).toUpperCase() + str.slice(1)
-const truncate = str => (str.length <= 46 ? str : str.slice(0, 43) + '...')
+const truncate = str =>
+  str.length <= MAX_LENGTH ? str : str.slice(0, MAX_LENGTH - 3) + '...'
 
 const serializers = {
   IssueCommentEvent: item => {
@@ -44,7 +47,7 @@ Toolkit.run(
       // Filter out any boring activity
       .filter(event => serializers.hasOwnProperty(event.type))
       // We only have five lines to work with
-      .slice(0, 5)
+      .slice(0, MAX_LINES)
       // Call the serializer to construct a string
       .map(item => serializers[item.type](item))
       // Truncate if necessary
@@ -52,28 +55,16 @@ Toolkit.run(
       // Join items to one string
       .join('\n')
 
-    let gist
+    const box = new GistBox({ id: GIST_ID, token: GITHUB_PAT })
     try {
-      gist = await tools.github.gists.get({ gist_id: GIST_ID })
-      tools.log(`Found Gist: ${gist.data.description}`)
-    } catch (error) {
-      return tools.exit.failure(`Unable to get gist\n${error}`)
-    }
-
-    // Get original filename to update that same file
-    const filename = Object.keys(gist.data.files)[0]
-
-    try {
-      await tools.github.gists.update({
-        gist_id: GIST_ID,
-        files: {
-          [filename]: { content }
-        }
+      await box.update({
+        filename: 'example.md',
+        description: 'A new description',
+        content: 'The new content'
       })
-
-      tools.log.success('Gist updated!')
-    } catch (error) {
-      tools.exit.failure(`Unable to update gist\n${error}`)
+      tools.exit.success('Gist updated!')
+    } catch (err) {
+      return tools.exit.failure(err)
     }
   },
   {
