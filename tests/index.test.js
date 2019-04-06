@@ -71,42 +71,18 @@ describe('activity-box', () => {
     expect(updatedGist).toMatchSnapshot()
   })
 
-  // describe('createBody', () => {
-  //   it('returns the expected string', async () => {
-  //     const actual = await createBody()
-  //     expect(actual).toMatchSnapshot()
-  //   })
-  // })
+  it('handles failure to update the Gist', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .get('/users/clippy/events/public?per_page=100')
+      .reply(200, events)
+      .get('/gists/456def')
+      .reply(200, { description: 'a gist', files: { 'a-file': {} } })
+      .patch('/gists/456def')
+      .replyWithError(404)
 
-  // describe('updateGist', () => {
-  //   beforeEach(() => {
-  //     console.log = jest.fn()
-  //     console.error = jest.fn()
-  //   })
-
-  //   it('handles a missing Gist', async () => {
-  //     nock.cleanAll()
-  //     const nocked = nock('https://api.github.com')
-  //       .get('/gists/456def').reply(404)
-  //       .patch('/gists/456def').reply(200)
-
-  //     await updateGist('hello')
-  //     expect(console.error).toHaveBeenCalled()
-  //     expect(nocked.pendingMocks()).toEqual([
-  //       'PATCH https://api.github.com:443/gists/456def'
-  //     ])
-  //   })
-
-  //   it('handles failure to update the Gist', async () => {
-  //     nock.cleanAll()
-  //     nock('https://api.github.com')
-  //       .get('/gists/456def')
-  //       .reply(200, { description: 'a gist', files: ['a file'] })
-  //       .patch('/gists/456def')
-  //       .reply(404)
-
-  //     await updateGist('hello')
-  //     expect(console.error).toHaveBeenCalled()
-  //   })
-  // })
+    await action(tools)
+    expect(tools.exit.failure).toHaveBeenCalled()
+    expect(tools.exit.failure.mock.calls).toMatchSnapshot()
+  })
 })
