@@ -26,7 +26,7 @@ action "codecov" {
 
 workflow "Update activity" {
   resolves = ["update-gist"]
-  on = "schedule(*/5 * * * *)"
+  on = "schedule(*/10 * * * *)"
 }
 
 action "update-gist" {
