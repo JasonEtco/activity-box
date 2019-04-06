@@ -15,7 +15,7 @@
 ### Prep work
 
 1. Create a new public GitHub Gist (https://gist.github.com/)
-2. Create a token with the `gist` scope and copy it. (https://github.com/settings/tokens/new)
+2. [Create a token](https://github.com/settings/tokens/new) with the `gist` scope and copy it. The `GITHUB_TOKEN` that comes with GitHub Actions cannot currently use the Gist API.
 
 ### Project setup
 
@@ -30,7 +30,8 @@ workflow "Update activity" {
 action "update-gist" {
   uses = "JasonEtco/activity-box@master"
   secrets = [
-    "GH_PAT"
+    "GH_PAT",
+    "GITHUB_TOKEN"
   ]
   env = {
     GH_USERNAME = "JasonEtco",
