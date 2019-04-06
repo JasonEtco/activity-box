@@ -30,20 +30,22 @@ workflow "Update activity" {
 action "update-gist" {
   uses = "JasonEtco/activity-box@master"
   secrets = [
-    "GITHUB_PAT",
-    "GITHUB_USERNAME",
-    "GIST_ID"
+    "GH_PAT"
   ]
+  env = {
+    GH_USERNAME = "JasonEtco",
+    GIST_ID = "123abc"
+  }
 }
 ```
 
 2. 💰 Profit
 
-### Secrets
+### Environment variables & secrets
 
 - **GIST_ID:** The ID portion from your gist url `https://gist.github.com/matchai/`**`6d5f84419863089a167387da62dd7081`**.
-- **GITHUB_PAT:** The GitHub token generated above.
-- **GITHUB_USERNAME:** The username handle of the GitHub account.
+- **GH_PAT:** The GitHub token generated above.
+- **GH_USERNAME:** The username handle of the GitHub account.
 
 ---
 
