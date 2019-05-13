@@ -24,7 +24,10 @@ const events = [
   },
   {
     type: 'PullRequestEvent',
-    repo: { name: 'clippy/really-really-really-long' },
+    repo: {
+      name:
+        'clippy/really-really-really-really-really-really-really-really-really-long'
+    },
     payload: { action: 'opened', pull_request: { number: 3 } }
   }
 ]
