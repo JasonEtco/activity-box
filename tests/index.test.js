@@ -1,5 +1,8 @@
 const { Toolkit } = require('actions-toolkit')
 const nock = require('nock')
+const { GistBox } = require('gist-box')
+
+jest.mock('gist-box')
 
 const events = [
   {
@@ -36,23 +39,18 @@ describe('activity-box', () => {
   let action, tools, updatedGist
 
   beforeEach(() => {
+    GistBox.prototype.update = jest.fn()
+
     Toolkit.run = fn => {
       action = fn
     }
+
     require('..')
 
     nock('https://api.github.com')
       // Get the user's recent activity
       .get('/users/clippy/events/public?per_page=100')
       .reply(200, events)
-      // Get the Gist
-      .get('/gists/456def')
-      .reply(200, { description: 'a gist', files: { 'a file': {} } })
-      // Update the Gist
-      .patch('/gists/456def')
-      .reply(200, (_, body) => {
-        updatedGist = JSON.parse(body)
-      })
 
     tools = new Toolkit({
       logger: {
@@ -72,18 +70,14 @@ describe('activity-box', () => {
 
   it('updates the Gist with the expected string', async () => {
     await action(tools)
-    expect(updatedGist).toMatchSnapshot()
+    expect(GistBox.prototype.update).toHaveBeenCalled()
+    expect(GistBox.prototype.update.mock.calls[0][0]).toMatchSnapshot()
   })
 
   it('handles failure to update the Gist', async () => {
-    nock.cleanAll()
-    nock('https://api.github.com')
-      .get('/users/clippy/events/public?per_page=100')
-      .reply(200, events)
-      .get('/gists/456def')
-      .reply(200, { description: 'a gist', files: { 'a-file': {} } })
-      .patch('/gists/456def')
-      .replyWithError(404)
+    GistBox.prototype.update.mockImplementationOnce(() => {
+      throw new Error(404)
+    })
 
     await action(tools)
     expect(tools.exit.failure).toHaveBeenCalled()

@@ -4,7 +4,7 @@
   <p align="center">⚡️📌 Update a pinned gist to contain the latest activity of a user</p>
 </p>
 
-<p align="center"><a href="https://action-badges.now.sh"><img src="https://action-badges.now.sh/JasonEtco/activity-box" /></a> <a href="https://codecov.io/gh/JasonEtco/activity-box/"><img src="https://badgen.now.sh/codecov/c/github/JasonEtco/activity-box" alt="Codecov"></a></p>
+<p align="center"><a href="https://github.com/JasonEtco/activity-box"><img alt="GitHub Actions status" src="https://github.com/JasonEtco/activity-box/workflows/Node%20CI/badge.svg"> <a href="https://codecov.io/gh/JasonEtco/activity-box/"><img src="https://badgen.now.sh/codecov/c/github/JasonEtco/activity-box" alt="Codecov"></a></p>
 
 ---
 
@@ -19,25 +19,27 @@
 
 ### Project setup
 
-1. Create a `.github/main.workflow` file with a workflow like this:
+1. Create a `.github/workflows/activity-box.yml` file with a workflow like this:
 
-```workflow
-workflow "Update activity" {
-  on = "schedule(*/15 * * * *)"
-  resolves = ["update-gist"]
-}
+```yml
+name: Activity Box
 
-action "update-gist" {
-  uses = "JasonEtco/activity-box@master"
-  secrets = [
-    "GH_PAT",
-    "GITHUB_TOKEN"
-  ]
-  env = {
-    GH_USERNAME = "JasonEtco",
-    GIST_ID = "123abc"
-  }
-}
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: JasonEtco/activity-box@master
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USERNAME: JasonEtco
+          GIST_ID: 123abc
 ```
 
 2. 💰 Profit
