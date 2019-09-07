@@ -36,7 +36,7 @@ const events = [
 ]
 
 describe('activity-box', () => {
-  let action, tools, updatedGist
+  let action, tools
 
   beforeEach(() => {
     GistBox.prototype.update = jest.fn()
