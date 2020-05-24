@@ -15,11 +15,17 @@
 ### Prep work
 
 1. Create a new public GitHub Gist (https://gist.github.com/)
-2. [Create a token](https://github.com/settings/tokens/new) with the `gist` scope and copy it. The `GITHUB_TOKEN` that comes with GitHub Actions cannot currently use the Gist API.
+2. [Generate new token](https://github.com/settings/tokens/new) with the `gist` scope and copy it. The `GITHUB_TOKEN` that comes with GitHub Actions cannot currently use the Gist API.
 
 ### Project setup
 
-1. Create a `.github/workflows/activity-box.yml` file with a workflow like this:
+1. Fork this repo
+
+2. Create a secret by going to **Forked repo > Settings > Secrets > New secret** with the following:
+- Name: Use `GH_PAT`.
+- Value: The token with the `gist` scope generated previously.
+
+3. Open the file `.github/workflows/activity.yml` which looks like this:
 
 ```yml
 name: Activity Box
@@ -42,14 +48,12 @@ jobs:
           GIST_ID: 123abc
 ```
 
-2. 💰 Profit
+4. Edit the [environment variables](.github/workflows/activity.yml#L15-L18):
 
-### Environment variables & secrets
+- **GIST_ID:** The ID portion from your gist url `https://gist.github.com/JasonEtco/`**`6d5f84419863089a167387da62dd7081`**.
+- **GH_USERNAME:** The username handle of your GitHub account.
 
-- **GIST_ID:** The ID portion from your gist url `https://gist.github.com/matchai/`**`6d5f84419863089a167387da62dd7081`**.
-- **GH_PAT:** The GitHub token generated above.
-- **GH_USERNAME:** The username handle of the GitHub account.
-
+5. 💰 Profit
 ---
 
 _Inspired by [matchai/bird-box](https://github.com/matchai/bird-box)_
