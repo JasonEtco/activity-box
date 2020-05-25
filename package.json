@@ -13,16 +13,16 @@
     "url": "https://github.com/JasonEtco/activity-box.git"
   },
   "dependencies": {
-    "actions-toolkit": "^2.2.0",
-    "dotenv": "^8.1.0",
-    "gist-box": "^0.3.0"
+    "actions-toolkit": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "gist-box": "^0.3.1"
   },
   "devDependencies": {
-    "husky": "^3.0.5",
-    "jest": "^24.9.0",
-    "nock": "^11.3.3",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1"
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "nock": "^12.0.3",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1"
   },
   "husky": {
     "hooks": {
