@@ -42,7 +42,7 @@ jobs:
           GIST_ID: 123abc
 ```
 
-2. Create a [secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) 🔑 by going to **GitHub repo > Settings > Secrets > New secret** with the following:
+2. [Create a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) 🔑 by going to **GitHub repo > Settings > Secrets > New secret** with the following:
 - Name: `GH_PAT`.
 - Value: The token with the `gist` scope generated previously.
 
@@ -51,6 +51,7 @@ jobs:
 ### Environment variables & secrets
 
 - **GIST_ID:** The ID portion from your gist url `https://gist.github.com/matchai/`**`6d5f84419863089a167387da62dd7081`**.
+- **GH_PAT:** The GitHub token generated above.
 - **GH_USERNAME:** The username handle of the GitHub account.
 
 ---
