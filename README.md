@@ -19,7 +19,15 @@
 
 ### Project setup
 
-1. Create a `.github/workflows/activity-box.yml` file with a workflow like this:
+1. [Create a template repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) by clicking [here](https://github.com/JasonEtco/activity-box/generate). Alternatively, you can click the _Use this template_ button.
+
+![](assets/use-this-template.png)
+
+Name your repository and click _Create repository from template_.
+
+![](assets/create-repository-from-template.png)
+
+2. Create a `.github/workflows/activity-box.yml` file with a workflow like this:
 
 ```yml
 name: Activity Box
@@ -42,11 +50,11 @@ jobs:
           GIST_ID: 123abc
 ```
 
-2. [Create a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) 🔑 by going to **GitHub repo > Settings > Secrets > New secret** with the following:
+3. [Create a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) 🔑 by going to **GitHub repo > Settings > Secrets > New secret** with the following:
 - Name: `GH_PAT`.
 - Value: The token with the `gist` scope generated previously.
 
-3. 💰 Profit
+4. 💰 Profit
 
 ### Environment variables & secrets
 
