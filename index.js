@@ -16,17 +16,6 @@ const serializers = {
       item.payload.issue.number
     } in ${item.repo.name}`;
   },
-  PullRequestReviewCommentEvent: (item) => {
-    const emoji =
-      item.payload.action === "created"
-        ? "✔️"
-        : item.payload.action === "edited"
-        ? ""
-        : "❌";
-    return `${emoji} ${capitalize(item.payload.action)} PR #${
-      item.payload.pull_request.number
-    } in ${item.repo.name}`;
-  },
 
   PullRequestEvent: (item) => {
     const emoji = item.payload.action === "opened" ? "💪" : "❌";
