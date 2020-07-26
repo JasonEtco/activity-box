@@ -24,9 +24,7 @@ const serializers = {
   
   PullRequestEvent: item => {
     const emoji = item.payload.action === 'opened' ? '💪' : '❌'
-    const line = item.payload.pull_request.merged
-      ? '🎉 Merged'
-      : `${emoji} ${capitalize(item.payload.action)}`
+    const line = item.payload.pull_request.merged ? '🎉 Merged' : `${emoji} ${capitalize(item.payload.action)}`
     return `${line} PR #${item.payload.pull_request.number} in ${
       item.repo.name
     }`
