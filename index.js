@@ -8,6 +8,9 @@ const truncate = str =>
   str.length <= MAX_LENGTH ? str : str.slice(0, MAX_LENGTH - 3) + '...'
 
 const serializers = {
+  ForkEvent: item => {
+    return `🔱 Forked from ${item.repo.name}`
+  },
   IssueCommentEvent: item => {
     return `🗣 Commented on #${item.payload.issue.number} in ${item.repo.name}`
   },
@@ -15,6 +18,9 @@ const serializers = {
     return `❗️ ${capitalize(item.payload.action)} issue #${
       item.payload.issue.number
     } in ${item.repo.name}`
+  },
+  PublicEvent: item => {
+    return `💯 Published ${item.repo.name}`
   },
   PullRequestEvent: item => {
     const emoji = item.payload.action === 'opened' ? '💪' : '❌'
@@ -24,7 +30,49 @@ const serializers = {
     return `${line} PR #${item.payload.pull_request.number} in ${
       item.repo.name
     }`
+  },
+  PushEvent: item => {
+    return `💾 Pushed to ${item.repo.name}`
+  },
+  ReleaseEvent: item => {
+    if (item.payload.action === 'published') {
+      return `✨ Released ${item.payload.release.tag_name} on ${item.repo.name}`
+    } else {
+      return ''
+    }
+  },
+  WatchEvent: item => {
+    if (item.payload.action === 'started') {
+      return `⭐ Starred ${item.repo.name}`
+    } else {
+      return ''
+    }
   }
+}
+
+function cleanupPushes(content) {
+  let count = 0
+  let edit = 0
+  for (let i = 0; i < content.length; i++) {
+    if (i > 0 && content[i - 1] === content[i]) {
+      count++
+    }
+    if (count !== 0) {
+      if (i === content.length) {
+        edit = i
+      } else if (content[i - 1] !== content[i]) {
+        edit = i - 1
+      } else {
+        continue
+      }
+      content[edit] = content[edit].replace('Pushed to', `Pushed ${count + 1}x to`)
+      while (count > 0) {
+        content[edit - count] = ''
+        count--
+      }
+    }
+  }
+  return content
 }
 
 Toolkit.run(
@@ -41,13 +89,17 @@ Toolkit.run(
       `Activity for ${GH_USERNAME}, ${events.data.length} events found.`
     )
 
-    const content = events.data
+    let content = events.data
       // Filter out any boring activity
       .filter(event => serializers.hasOwnProperty(event.type))
-      // We only have five lines to work with
-      .slice(0, MAX_LINES)
       // Call the serializer to construct a string
       .map(item => serializers[item.type](item))
+    cleanupPushes(content)
+    content = content
+      // Filter out any empty strings (irrelevant events)
+      .filter(str => str)
+      // We only have five lines to work with
+      .slice(0, MAX_LINES)
       // Truncate if necessary
       .map(truncate)
       // Join items to one string
