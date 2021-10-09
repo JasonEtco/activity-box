@@ -54,7 +54,7 @@ function cleanupPushes(content) {
   let count = 0
   let edit = 0
   for (let i = 0; i < content.length; i++) {
-    if (i > 0 && content[i - 1] === content[i]) {
+    if (i > 0 && content[i - 1] === content[i] && content[i].includes('Pushed to')) {
       count++
     }
     if (count !== 0) {
