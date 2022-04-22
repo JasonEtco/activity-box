@@ -53,6 +53,10 @@ Toolkit.run(
       // Join items to one string
       .join('\n')
 
+    if (content == '') {
+      content = '⁉️ No recent activity performed!'
+    }
+
     const box = new GistBox({ id: GIST_ID, token: GH_PAT })
     try {
       tools.log.debug(`Updating Gist ${GIST_ID}`)
