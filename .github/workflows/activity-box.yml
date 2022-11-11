@@ -13,6 +13,6 @@ jobs:
       - uses: JasonEtco/activity-box@master
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_USERNAME: JasonEtco
-          GIST_ID: 68c3458672047ec25e61a8af730181c3
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GH_USERNAME: JIAN
+          GIST_ID: cb2f3082b8c2e3b73f24e178427232d5
