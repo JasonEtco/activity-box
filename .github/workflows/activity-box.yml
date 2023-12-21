@@ -15,4 +15,4 @@ jobs:
           GH_PAT: ${{ secrets.GIT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.sikk }}
           GH_USERNAME: siksum
-          GIST_ID: 9ae3bdb309076f4be4aa0649c0c2537d
+          GIST_ID: ed3e6ebb935e4d683cc1df68fd109806
